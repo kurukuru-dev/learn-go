@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	// "errors"
 )
 
 // import ( "fmt" "math" )
@@ -244,16 +245,87 @@ func (v *Vertex2) Print2() {
 }
 
 // interface practice
+type I interface {
+	M()
+}
+
+type T struct {
+	S string
+	B bool
+}
+
+func (t *T) M() {
+	fmt.Println(t.S)
+}
 
 // type assertion
+type I2 interface {}
+
+func typeAssertion(i I2) {
+	s, ok := i.(string)
+	fmt.Println(s, ok)
+}
 
 // switch with type
+func do(i interface{}) {
+	switch v := i.(type) {
+		case int:
+			fmt.Println("int", v)
+		case string:
+			fmt.Println("string", v)
+		default:
+			fmt.Println("unknown")
+	}
+}
 
 // stringer interface
+type Person struct {
+	Name string
+}
+
+func (p Person) String() string {
+	return fmt.Sprintf("My name is %v", p.Name)
+}
 
 // error interface
+type MyError struct {
+	Msg string
+}
+
+func (e *MyError) Error() string {
+	return e.Msg
+}
+
+func validate(i int) error {
+	if i < 0 {
+		return fmt.Errorf("invalid value: %v", i) // fmt.Errorfはerrorを返すだけで、出力はしない
+	}
+	return nil
+}
 
 // go routine
+func fibonacci(c, f chan int) {
+	x, y := 0, 1
+
+	for {
+		select {
+		case c <- x:
+			x, y = y, x + y
+		case <- f:
+			fmt.Println("finish")
+			return
+		}
+	}
+}
+
+// baffer channel
+func bufferChannel() {
+	c := make (chan int, 1)
+	c <- 1
+	c <- 2 // panic
+	fmt.Println(<-c)
+	fmt.Println(<-c)
+}
 
 func main() {
 	// slice()
@@ -276,4 +348,36 @@ func main() {
 	// fmt.Println(v.age) // {komori 1}
 	// v.Print2()
 	// fmt.Println(v.age) // {komori 2}
+
+	// i := &T{"Hello", true}
+	// i.M()
+
+	// typeAssertion("Hello")
+	// typeAssertion(1) // panic
+
+	// do(1)
+	// do("Hello")
+	// do(true)
+
+	// p := Person{"komori"}
+	// fmt.Println(p)
+
+	// e := &MyError{"Error"}
+	// fmt.Println(e)
+	// var ErrNotUser = errors.New("user not found")
+	// fmt.Println(ErrNotUser)
+	// e := validate(-1)
+	// fmt.Println(e)
+
+	// c := make(chan int)
+	// f := make(chan int)
+	// go func() {
+	// 	for i := 0; i < 10; i++ {
+	// 		fmt.Println(<-c)
+	// 	}
+	// 	f <- 0
+	// }()
+	// fibonacci(c, f)
+
+	// bufferChannel()
 }
