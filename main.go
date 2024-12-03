@@ -84,8 +84,9 @@ func pointerPractice() {
 	a := 1
 	// bにはaのアドレスが入る。つまり、bはポインタ
 	b := &a
+	c := *b
 
-	fmt.Println(a, b)
+	fmt.Println(a, b, c)
 }
 
 // struct practice
@@ -217,6 +218,43 @@ func closruePractice() func() int {
 	}
 }
 
+// method practice
+type Vertext struct {
+	s1 string
+	s2 string
+}
+
+func (v Vertext) Print(s3 string) {
+	fmt.Println(v.s1, v.s2, s3)
+}
+
+// pointer receiver
+type Vertex2 struct {
+	name string
+	age int
+}
+
+func (v Vertex2) Print() {
+	v.age++
+}
+
+func (v *Vertex2) Print2() {
+	v.age++
+	(*v).age++
+}
+
+// interface practice
+
+// type assertion
+
+// switch with type
+
+// stringer interface
+
+// error interface
+
+// go routine
+
 func main() {
 	// slice()
 	// mapPractice()
@@ -224,8 +262,18 @@ func main() {
 	// zeroValues()
 	// ticTacToe()
 	// appendPractice()
+	// pointerPractice()
 	// rangePractice()
 	// var closure = closruePractice()
 	// fmt.Println(closure()) // 1
 	// fmt.Println(closure()) // 2
+
+	// v := Vertext{"hello", "world"}
+	// v.Print("!")
+
+	// v := Vertex2{"komori", 1}
+	// v.Print()
+	// fmt.Println(v.age) // {komori 1}
+	// v.Print2()
+	// fmt.Println(v.age) // {komori 2}
 }
