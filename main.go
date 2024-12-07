@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	// "errors"
 )
 
@@ -327,6 +328,16 @@ func bufferChannel() {
 	fmt.Println(<-c)
 }
 
+// server practice
+func handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hello, World")
+}
+
+func server() {
+	http.HandleFunc("/", handler)
+	http.ListenAndServe(":8080", nil)
+}
+
 func main() {
 	// slice()
 	// mapPractice()
@@ -380,4 +391,5 @@ func main() {
 	// fibonacci(c, f)
 
 	// bufferChannel()
+	server()
 }
